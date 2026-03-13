@@ -1562,6 +1562,16 @@ export default function App() {
       const text = await res.text();
       throw new Error(`Server error ${res.status}: ${text}`);
     }
+    try {
+  await fetch("https://n8nnode.showmecustomapparel.com/webhook/lead_send_email", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+} catch (webhookErr) {
+  // Log but don't fail the user flow if the webhook errors
+  console.error("n8n webhook call failed:", webhookErr);
+}
 
     setCurrentStep(thankYouStep);
   };
